@@ -11270,6 +11270,8 @@ class CustomStreamWrapper:
                 and isinstance(completion_obj["content"], str)
                 and len(completion_obj["content"]) > 0
             ):  # cannot set content of an OpenAI Object to be an empty string
+                if self.received_finish_reason:
+                    self.sent_first_chunk = False
                 hold, model_response_str = self.check_special_tokens(
                     chunk=completion_obj["content"],
                     finish_reason=model_response.choices[0].finish_reason,
